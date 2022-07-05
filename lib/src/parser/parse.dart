@@ -518,32 +518,7 @@ class Parser {
         if (formulaNode.isNotEmpty) {
           value = Formula.custom(_parseValue(formulaNode.first).toString());
         } else {
-          if (s1 != null) {
-            var fmtId = _excel._numFormats[s];
-            // date
-            if (((fmtId >= 14) && (fmtId <= 17)) ||
-                (fmtId == 22) ||
-                (fmtId == 164)) {
-              var delta = num.parse(_parseValue(content)) * 24 * 3600 * 1000;
-              var date = DateTime(1899, 12, 30);
-              value = date
-                  .add(Duration(milliseconds: delta.toInt()))
-                  .toIso8601String();
-              // time
-            } else if (((fmtId >= 18) && (fmtId <= 21)) ||
-                ((fmtId >= 45) && (fmtId <= 47))) {
-              var delta = num.parse(_parseValue(content)) * 24 * 3600 * 1000;
-              var date = DateTime(0);
-              date = date.add(Duration(milliseconds: delta.toInt()));
-              value =
-                  '${_twoDigits(date.hour)}:${_twoDigits(date.minute)}:${_twoDigits(date.second)}';
-              // number
-            } else {
-              value = num.parse(_parseValue(content));
-            }
-          } else {
-            value = num.parse(_parseValue(content));
-          }
+          value = num.parse(_parseValue(content));
         }
     }
     sheetObject.updateCell(
